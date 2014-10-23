@@ -1,0 +1,81 @@
+<aside class="right-side">
+    <section class="content-header">
+        <h1>Company</h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>            
+            <li class="active">Company</li>
+        </ol>
+    </section>    
+    <section class="content">
+        <div class="col-xs-12 pad rightalign">
+            <button class="btn btn-primary" onclick="location.href='<?php echo $this->url(array('controller'=>'company','action'=>'add'),null,true) ?>'">Add Company</button>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">                    
+                    <div class="message">                        
+                        <?php foreach ($this->messages as $message) { ?>
+                            <?php echo '<div class="bg-' . key($message) . ' with-padding block-inner">' . current($message) . '</div>'; ?>
+                        <?php } ?>
+                    </div>
+                    <?php if(isset($this->error)):  ?>
+                        <?php foreach($this->error as $key=>$error): ?>
+                        <div class="bg-danger with-padding" style="text-align: left">
+                            <?php echo $error;?>
+                        </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>                    
+                    <div class="box-body table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Zipcode</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $i = 1;?>
+                                <?php if(count($this->companyData) > 0): ?>
+                                    <?php foreach($this->companyData as $company): ?>
+                                        <tr>
+                                            <td><?php echo (($this->page - 1) * $this->numberOfItemsToShow) + $i;?></td>
+                                            <td><?php echo $this->escape($company['company_name']) ?></td>
+                                            <td><?php echo $this->escape($company['address_1']) ?></td>
+                                            <td><?php echo $this->escape($company['city']) ?></td>
+                                            <td><?php echo $this->escape($company['state']) ?></td>
+                                            <td><?php echo $this->escape($company['zipcode']) ?></td>
+                                            <td><?php echo ($company['status'] == 1) ? 'Active' : 'Inactive'; ?></td>
+                                            <td>
+                                                <a href="<?php echo $this->url(array('controller' => 'company','action'=>'edit','id'=>$company['id'])); ?>" class="action edit">Edit</a>
+                                                <a href="<?php echo $this->url(array('controller' => 'company','action'=>'delete','id'=>$company['id']),null,true); ?>" class="action delete" onclick="return confirm('Are you sure?')">Delete</a>
+                                            </td>
+                                        </tr>
+                                    <?php $i++; endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="8" class="center"> No Records Found.</td>
+                                    </tr>
+                                <?php endif; ?>                                
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="8" class="rightalign">
+                                        <div class="text-right">
+                                            <?php echo $this->paginationControl($this->companyData, 'Sliding', 'partials/FrontPaginate.phtml'); ?>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>
